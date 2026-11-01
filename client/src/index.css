@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 4%;
+    --foreground: 120 100% 90%; /* Arcade phosphor green */
+
+    --card: 240 10% 8%;
+    --card-foreground: 120 100% 90%;
+
+    --popover: 240 10% 8%;
+    --popover-foreground: 120 100% 90%;
+
+    --primary: 320 100% 60%; /* Hot pink */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 200 100% 50%; /* Cyan */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 10% 15%;
+    --muted-foreground: 120 50% 60%;
+
+    --accent: 45 100% 50%; /* Gold */
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 100% 25%;
+    --input: 120 100% 15%;
+    --ring: 120 100% 50%;
+
+    --radius: 0;
+
+    --font-arcade: 'Press Start 2P', system-ui;
+    --font-tech: 'Chakra Petch', sans-serif;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased overflow-hidden;
+    font-family: var(--font-tech);
+    background-image:
+      linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-arcade);
+    @apply tracking-tight uppercase;
+  }
+}
+
+/* Pixel texture — deliberately no CRT scanline or color-separation overlay */
+.scanlines {
+  position: relative;
+}
+
+.scanlines::before {
+  display: none;
+}
+
+.arcade-shadow {
+  box-shadow: 4px 4px 0px 0px hsl(var(--primary)), 8px 8px 0px 0px hsl(var(--secondary));
+}
+
+.arcade-shadow-hover:hover {
+  box-shadow: 6px 6px 0px 0px hsl(var(--primary)), 12px 12px 0px 0px hsl(var(--secondary));
+  transform: translate(-2px, -2px);
+}
+
+.arcade-shadow-active:active {
+  box-shadow: 2px 2px 0px 0px hsl(var(--primary)), 4px 4px 0px 0px hsl(var(--secondary));
+  transform: translate(2px, 2px);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Custom scrollbar for retro feel */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+  border-left: 2px solid hsl(var(--border));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border: 2px solid hsl(var(--background));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--secondary));
+}
+
+.pixel-rendering {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Neon glow borders */
+.neon-box-pink {
+  border: 2px solid hsl(var(--primary));
+  box-shadow:
+    0 0 6px hsl(var(--primary) / 0.8),
+    0 0 24px hsl(var(--primary) / 0.3),
+    inset 0 0 10px hsl(var(--primary) / 0.05);
+}
+.neon-box-cyan {
+  border: 2px solid hsl(var(--secondary));
+  box-shadow:
+    0 0 6px hsl(var(--secondary) / 0.8),
+    0 0 24px hsl(var(--secondary) / 0.3),
+    inset 0 0 10px hsl(var(--secondary) / 0.05);
+}
+.neon-box-gold {
+  border: 2px solid hsl(var(--accent));
+  box-shadow:
+    0 0 6px hsl(var(--accent) / 0.8),
+    0 0 24px hsl(var(--accent) / 0.3),
+    inset 0 0 10px hsl(var(--accent) / 0.05);
+}
+
+/* Pixel corner brackets */
+.pixel-frame {
+  position: relative;
+  border: 2px solid hsl(var(--primary) / 0.4);
+}
+.pixel-frame::before,
+.pixel-frame::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: hsl(var(--primary));
+  border-style: solid;
+}
+.pixel-frame::before { top: -4px; left: -4px; border-width: 3px 0 0 3px; }
+.pixel-frame::after  { top: -4px; right: -4px; border-width: 3px 3px 0 0; }
+
+.pixel-frame-bottom {
+  position: relative;
+}
+.pixel-frame-bottom::before,
+.pixel-frame-bottom::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: hsl(var(--primary));
+  border-style: solid;
+}
+.pixel-frame-bottom::before { bottom: -4px; left: -4px; border-width: 0 0 3px 3px; }
+.pixel-frame-bottom::after  { bottom: -4px; right: -4px; border-width: 0 3px 3px 0; }
+
+/* Scrolling ticker */
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-inner {
+  display: inline-block;
+  animation: ticker 22s linear infinite;
+  white-space: nowrap;
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.blink { animation: blink 1s step-end infinite; }
+
+/* Title flicker */
+@keyframes flicker {
+  0%, 89%, 91%, 93%, 100% { opacity: 1; }
+  90%, 92%                 { opacity: 0.75; }
+}
+.flicker { animation: flicker 6s infinite; }
+
+/* Pulsing neon glow on button */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 4px 4px 0 hsl(var(--primary)), 8px 8px 0 hsl(var(--secondary)), 0 0 12px hsl(var(--primary) / 0.5); }
+  50%       { box-shadow: 4px 4px 0 hsl(var(--primary)), 8px 8px 0 hsl(var(--secondary)), 0 0 28px hsl(var(--primary) / 0.9); }
+}
+.arcade-btn-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Terminal box */
+.terminal-box {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-left: 3px solid hsl(var(--secondary));
+  padding: 1rem 1.25rem;
+  font-family: var(--font-tech);
+  position: relative;
+}
+.terminal-box::before {
+  content: '//';
+  position: absolute;
+  top: -0.6rem;
+  left: 1rem;
+  background: hsl(var(--background));
+  padding: 0 0.4rem;
+  color: hsl(var(--secondary));
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+}
+
+/* Rank bar fill for leaderboard */
+.rank-bar {
+  height: 2px;
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  opacity: 0.4;
+}
+
+/* [REDACTED] secret skin preview: black shirt with drifting red boxes */
+.redacted-shirt {
+  background-color: #0a0a0a;
+  background-image:
+    linear-gradient(90deg, transparent 0 4px, #ff2a2a 4px 10px, transparent 10px 14px),
+    linear-gradient(90deg, transparent 0 9px, #ff2a2acc 9px 15px, transparent 15px 14px);
+  background-size: 14px 9px, 14px 9px;
+  background-position: 0 3px, 7px 12px;
+  background-repeat: repeat;
+  animation: redacted-scroll 1.2s linear infinite;
+  mask-image: repeating-linear-gradient(180deg, #000 0 6px, transparent 6px 9px);
+  -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 6px, transparent 6px 9px);
+}
+@keyframes redacted-scroll {
+  from { background-position: 0 3px, 7px 12px; }
+  to   { background-position: 14px 3px, -7px 12px; }
+}
+
+/* QUANTUM HOLO legendary skin preview: shifting chromatic rainbow prism */
+.quantum-holo-shirt {
+  background: linear-gradient(135deg, #00f5a0 0%, #00d9f5 25%, #ff007f 50%, #7928ca 75%, #00f5a0 100%);
+  background-size: 300% 300%;
+  animation: holo-shimmer 2.5s ease infinite;
+  box-shadow: 0 0 10px rgba(0, 245, 160, 0.6), inset 0 0 6px rgba(255, 0, 127, 0.4);
+}
+@keyframes holo-shimmer {
+  0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+  50% { background-position: 100% 50%; filter: hue-rotate(180deg); }
+  100% { background-position: 0% 50%; filter: hue-rotate(360deg); }
+}
+
+/* CHRONO SUPERNOVA (0.01% SUPER): Blazing solar flare corona & temporal chrono burst */
+.super-nova-shirt {
+  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #ffe600 35%, #ff3b00 70%, #ff0055 100%);
+  background-size: 200% 200%;
+  animation: solar-flare 1.4s ease-in-out infinite alternate;
+  box-shadow: 0 0 16px rgba(255, 230, 0, 0.9), inset 0 0 8px rgba(255, 0, 85, 0.8);
+}
+@keyframes solar-flare {
+  0% { transform: scale(1); filter: brightness(1.1) drop-shadow(0 0 8px #ffaa00); }
+  100% { transform: scale(1.05); filter: brightness(1.5) drop-shadow(0 0 18px #ff0055); }
+}
+
+/* VOID SINGULARITY (0.01% SUPER): Dark matter vortex tearing reality */
+.singularity-void-shirt {
+  background: radial-gradient(circle at 50% 50%, #030008 20%, #7928ca 65%, #00ffff 100%);
+  background-size: 220% 220%;
+  animation: void-vortex 2s linear infinite;
+  box-shadow: 0 0 16px rgba(121, 40, 202, 0.85), inset 0 0 10px rgba(0, 255, 255, 0.8);
+}
+@keyframes void-vortex {
+  0% { background-position: 0% 0%; filter: hue-rotate(0deg); }
+  50% { background-position: 100% 100%; filter: hue-rotate(180deg); }
+  100% { background-position: 0% 0%; filter: hue-rotate(360deg); }
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "Jared's Warehouse",
+  "description": "Jared's Warehouse - An action-packed warehouse racing game with Bob's Shop, PC building, leaderboards, and rank quests.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
